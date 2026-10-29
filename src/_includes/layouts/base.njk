@@ -5,17 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{% if title %}{{ title }} · {% endif %}{{ site.shortName }}</title>
     <meta name="description" content="{{ description or site.description }}" />
+    <script>
+      // Mark JS available (so scroll-reveal can hide-then-reveal without a flash),
+      // and guarantee content shows even if the motion script fails to load.
+      document.documentElement.className += " js";
+      window.addEventListener("load", function () {
+        setTimeout(function () {
+          if (window.__motionReady) return;
+          var els = document.querySelectorAll(".reveal, .card, .project, .job-card, .feed-item");
+          for (var i = 0; i < els.length; i++) els[i].classList.add("in");
+        }, 1500);
+      });
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/assets/css/style.css" />
   </head>
   <body>
+    <div class="scroll-progress" aria-hidden="true"></div>
     {% include "partials/header.njk" %}
     <main>{{ content | safe }}</main>
     {% include "partials/footer.njk" %}
+    <script src="/assets/js/main.js" defer></script>
   </body>
 </html>
